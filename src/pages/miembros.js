@@ -408,17 +408,6 @@ export function renderMiembros() {
   Membresías
 </button>
 
-            <button
-              class="nav-item"
-              type="button"
-              data-page="analiticas"
-            >
-              <span class="nav-icon">
-                ${icons.chart}
-              </span>
-              Analíticas
-            </button>
-
           </nav>
 
         </div>
@@ -491,7 +480,7 @@ export function renderMiembros() {
 
             <div>
               <span>Nuevos este mes</span>
-              <strong>12</strong>
+              <strong>0</strong>
             </div>
           </article>
 
@@ -503,7 +492,7 @@ export function renderMiembros() {
 
             <div>
               <span>Ventas mensuales</span>
-              <strong>$18,450</strong>
+              <strong>$0</strong>
             </div>
           </article>
 

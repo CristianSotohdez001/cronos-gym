@@ -202,13 +202,6 @@ export function renderMembresias() {
               Membresías
             </button>
 
-            <button class="nav-item" data-page="analiticas">
-              <span class="nav-icon">
-                ${icons.chart}
-              </span>
-
-              Analíticas
-            </button>
 
           </nav>
 

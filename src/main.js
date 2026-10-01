@@ -8,8 +8,10 @@ import {
   initMembresias
 } from "./pages/membresias.js";
 
+
 const app =
   document.querySelector("#app");
+
 
 async function navegar(page) {
 
@@ -23,6 +25,7 @@ async function navegar(page) {
     return;
   }
 
+
   if (page === "membresias") {
 
     app.innerHTML =
@@ -32,14 +35,8 @@ async function navegar(page) {
 
     return;
   }
-
-  if (page === "analiticas") {
-
-    console.log(
-      "Página Analíticas próximamente"
-    );
-  }
 }
+
 
 document.addEventListener(
   "click",
@@ -58,4 +55,6 @@ document.addEventListener(
   }
 );
 
+
+// Iniciar directamente en Miembros
 navegar("miembros");
