@@ -445,7 +445,7 @@ export function renderMiembros() {
         <!-- ================= ESTADÍSTICAS ================= -->
 
         <section
-          class="stats-grid"
+          class="stats-grid stats-grid--two"
           aria-label="Resumen de miembros"
         >
 
@@ -469,30 +469,6 @@ export function renderMiembros() {
             <div>
               <span>Miembros activos</span>
               <strong id="statActivos">0</strong>
-            </div>
-          </article>
-
-
-          <article class="stat-card">
-            <div class="stat-icon">
-              ${icons.chart}
-            </div>
-
-            <div>
-              <span>Nuevos este mes</span>
-              <strong>0</strong>
-            </div>
-          </article>
-
-
-          <article class="stat-card">
-            <div class="stat-icon">
-              ${icons.dollar}
-            </div>
-
-            <div>
-              <span>Ventas mensuales</span>
-              <strong>$0</strong>
             </div>
           </article>
 
@@ -770,46 +746,6 @@ export function renderMiembros() {
               id="nuevoTelefono"
               name="telefono"
               placeholder="7711234567"
-              required
-            >
-          </div>
-        </label>
-
-
-        <!-- NACIMIENTO -->
-
-        <label class="member-form-field">
-          <span>Fecha de nacimiento *</span>
-
-          <div class="member-input">
-            <span class="member-input-icon">
-              ${icons.calendar}
-            </span>
-
-            <input
-              type="date"
-              id="nuevoNacimiento"
-              name="fechaNacimiento"
-              required
-            >
-          </div>
-        </label>
-
-
-        <!-- INCORPORACIÓN -->
-
-        <label class="member-form-field">
-          <span>Fecha de incorporación *</span>
-
-          <div class="member-input">
-            <span class="member-input-icon">
-              ${icons.calendar}
-            </span>
-
-            <input
-              type="date"
-              id="nuevoIncorporacion"
-              name="fechaInscripcion"
               required
             >
           </div>
@@ -1620,10 +1556,6 @@ function inicializarModalNuevoMiembro(
     "#nuevoTelefono"
   );
 
-  const fechaNacimiento = document.querySelector(
-    "#nuevoNacimiento"
-  );
-
   const membresia = document.querySelector(
     "#nuevoMembresia"
   );
@@ -1634,10 +1566,6 @@ function inicializarModalNuevoMiembro(
 
   const fechaVencimiento = document.querySelector(
     "#nuevoVencimiento"
-  );
-
-  const fechaIncorporacion = document.querySelector(
-    "#nuevoIncorporacion"
   );
 
   const costo = document.querySelector(
@@ -1675,11 +1603,9 @@ function inicializarModalNuevoMiembro(
     !nombre ||
     !apellidos ||
     !telefono ||
-    !fechaNacimiento ||
     !membresia ||
     !fechaInicio ||
     !fechaVencimiento ||
-    !fechaIncorporacion ||
     !costo ||
     !saldo
   ) {
@@ -1806,7 +1732,6 @@ function inicializarModalNuevoMiembro(
 
     const hoy = fechaInputHoy();
 
-    fechaIncorporacion.value = hoy;
     fechaInicio.value = hoy;
     costo.value = 0;
     saldo.value = 0;
@@ -1852,12 +1777,6 @@ function inicializarModalNuevoMiembro(
       miembro.telefono === "Sin teléfono"
         ? ""
         : miembro.telefono || "";
-
-    fechaNacimiento.value =
-      miembro.fechaNacimiento || "";
-
-    fechaIncorporacion.value =
-      miembro.fechaInscripcion || "";
 
     membresia.value =
       miembro.tipoMembresiaId || "";
@@ -2159,11 +2078,13 @@ function inicializarModalNuevoMiembro(
           telefono:
             datos.telefono.trim(),
 
+          // Las columnas siguen existiendo en Supabase y son NOT NULL.
+          // Se usa una fecha fija mientras no se muestran en el formulario.
           fecha_nacimiento:
-            datos.fechaNacimiento,
+            "2026-01-01",
 
           fecha_inscripcion:
-            datos.fechaInscripcion,
+            "2026-01-01",
 
           tipo_membresia_id:
             datos.tipoMembresiaId,

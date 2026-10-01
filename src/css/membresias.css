@@ -112,6 +112,18 @@ svg {
   align-items: center;
 }
 
+.stats-grid--two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.stats-grid--two .stat-card {
+  width: 100%;
+}
 
 /* LOGO */
 
