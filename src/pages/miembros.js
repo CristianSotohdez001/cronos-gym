@@ -445,7 +445,7 @@ export function renderMiembros() {
         <!-- ================= ESTADÍSTICAS ================= -->
 
         <section
-          class="stats-grid stats-grid--two"
+          class="stats-grid stats-grid--three"
           aria-label="Resumen de miembros"
         >
 
@@ -469,6 +469,18 @@ export function renderMiembros() {
             <div>
               <span>Miembros activos</span>
               <strong id="statActivos">0</strong>
+            </div>
+          </article>
+
+
+          <article class="stat-card">
+            <div class="stat-icon">
+              ${icons.dollar}
+            </div>
+
+            <div>
+              <span>Ventas mensuales</span>
+              <strong id="statVentasMensuales">$0</strong>
             </div>
           </article>
 
@@ -2078,8 +2090,8 @@ function inicializarModalNuevoMiembro(
           telefono:
             datos.telefono.trim(),
 
-          // Las columnas siguen existiendo en Supabase y son NOT NULL.
-          // Se usa una fecha fija mientras no se muestran en el formulario.
+          // Se conservan las columnas en Supabase, pero por ahora
+          // ya no se solicitan en el formulario y se guardan como NULL.
           fecha_nacimiento:
             "2026-01-01",
 
@@ -2353,6 +2365,86 @@ export async function initMiembros() {
     }
   }
 
+  function formatoDinero(valor) {
+    return new Intl.NumberFormat("es-MX", {
+      style: "currency",
+      currency: "MXN",
+      maximumFractionDigits: 0,
+    }).format(Number(valor) || 0);
+  }
+
+  function calcularVentasMensuales() {
+    const ahora = new Date();
+    const mesActual = ahora.getMonth();
+    const anioActual = ahora.getFullYear();
+
+    // Mapa: id de membresía -> precio actual de la tabla membresias.
+    const preciosPorMembresia = new Map(
+      membresiasDisponibles.map((membresia) => [
+        String(membresia.id),
+        Number(membresia.precio || 0),
+      ])
+    );
+
+    // Solo se consideran miembros cuya fecha_inicio pertenece
+    // al mismo mes y año que la fecha actual.
+    const miembrosDelMes = miembros.filter((miembro) => {
+      if (!miembro.fechaInicio || !miembro.tipoMembresiaId) {
+        return false;
+      }
+
+      // YYYY-MM-DD funciona directamente con esta extracción.
+      // También se contempla un timestamp ISO por seguridad.
+      const fechaTexto = String(miembro.fechaInicio).slice(0, 10);
+      const partes = fechaTexto.split("-");
+
+      if (partes.length !== 3) {
+        return false;
+      }
+
+      const anio = Number(partes[0]);
+      const mes = Number(partes[1]) - 1;
+
+      return (
+        anio === anioActual &&
+        mes === mesActual
+      );
+    });
+
+    // Agrupar por tipo de membresía.
+    const cantidadesPorMembresia = new Map();
+
+    miembrosDelMes.forEach((miembro) => {
+      const idMembresia = String(miembro.tipoMembresiaId);
+
+      cantidadesPorMembresia.set(
+        idMembresia,
+        (cantidadesPorMembresia.get(idMembresia) || 0) + 1
+      );
+    });
+
+    // Cantidad de cada membresía x precio actual de esa membresía.
+let totalVentas = 0;
+
+cantidadesPorMembresia.forEach((cantidad, idMembresia) => {
+  const precio = preciosPorMembresia.get(idMembresia) || 0;
+  totalVentas += cantidad * precio;
+});
+
+// Restar los saldos pendientes de los miembros
+// que iniciaron su membresía durante el mes actual.
+const totalPendiente = miembrosDelMes.reduce(
+  (total, miembro) => {
+    return total + Number(miembro.saldoPendiente || 0);
+  },
+  0
+);
+
+const ventasMensuales = totalVentas - totalPendiente;
+
+return Math.max(0, ventasMensuales);
+  }
+
   function actualizarEstadisticas() {
     const total =
       miembros.length;
@@ -2374,6 +2466,14 @@ export async function initMiembros() {
         "#statActivos"
       );
 
+    const ventasMensualesElement =
+      document.querySelector(
+        "#statVentasMensuales"
+      );
+
+    const ventasMensuales =
+      calcularVentasMensuales();
+
     if (totalElement) {
       totalElement.textContent =
         total;
@@ -2382,6 +2482,11 @@ export async function initMiembros() {
     if (activosElement) {
       activosElement.textContent =
         activos;
+    }
+
+    if (ventasMensualesElement) {
+      ventasMensualesElement.textContent =
+        formatoDinero(ventasMensuales);
     }
   }
 

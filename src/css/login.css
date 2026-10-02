@@ -1,3 +1,7 @@
+/* ============================================================
+   LOGIN CRONOS GYM
+   ============================================================ */
+
 .login-page {
   min-height: 100vh;
 
@@ -28,6 +32,8 @@
     0 20px 60px rgba(0, 60, 120, 0.18);
 
   text-align: center;
+
+  color: #102637;
 }
 
 .login-card h1 {
@@ -38,6 +44,11 @@
 
   color: #102637;
 }
+
+
+/* ============================================================
+   FORMULARIO LOGIN
+   ============================================================ */
 
 #loginForm {
   display: flex;
@@ -58,11 +69,17 @@
 
   font-size: 16px;
 
-  background: #fff;
+  background: #ffffff;
+
+  color: #102637;
 
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
+}
+
+#loginPassword::placeholder {
+  color: #888888;
 }
 
 #loginPassword:focus {
@@ -72,7 +89,29 @@
     0 0 0 4px rgba(7, 135, 255, 0.12);
 }
 
-#loginForm button {
+
+/* ============================================================
+   BOTONES DEL LOGIN
+   ============================================================ */
+
+.login-actions {
+  display: flex;
+
+  gap: 10px;
+
+  align-items: stretch;
+}
+
+.login-actions button {
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+/* BOTÓN ENTRAR */
+
+.login-main-button {
   border: none;
   border-radius: 10px;
 
@@ -85,7 +124,7 @@
       #0064c8
     );
 
-  color: white;
+  color: #ffffff;
 
   font-size: 16px;
   font-weight: 700;
@@ -94,15 +133,63 @@
 
   transition:
     transform 0.15s ease,
-    box-shadow 0.15s ease;
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
 }
 
-#loginForm button:hover {
+.login-main-button:hover {
   transform: translateY(-1px);
 
   box-shadow:
     0 8px 20px rgba(7, 135, 255, 0.25);
 }
+
+.login-main-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* BOTÓN CAMBIAR CONTRASEÑA */
+
+.login-change-button {
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+
+  padding: 14px;
+
+  background: #ffffff;
+
+  color: #102637;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.login-change-button:hover {
+  transform: translateY(-1px);
+
+  border-color: #0787ff;
+
+  background: #f7fbff;
+
+  box-shadow:
+    0 8px 20px rgba(7, 135, 255, 0.12);
+}
+
+
+/* ============================================================
+   ERROR DEL LOGIN
+   ============================================================ */
 
 .login-error {
   min-height: 20px;
@@ -112,4 +199,369 @@
   color: #d93025;
 
   font-size: 14px;
+}
+
+
+/* ============================================================
+   MODAL CAMBIAR CONTRASEÑA
+   ============================================================ */
+
+.change-password-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.18s ease,
+    visibility 0.18s ease;
+}
+
+
+/* Cuando hidden está activo */
+
+.change-password-overlay[hidden] {
+  display: none;
+}
+
+
+/* Modal abierto */
+
+.change-password-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ============================================================
+   TARJETA DEL MODAL
+   ============================================================ */
+
+.change-password-card {
+  width: min(100%, 430px);
+
+  padding: 24px;
+
+  background: #ffffff;
+
+  color: #102637;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25);
+
+  transform: translateY(8px);
+
+  transition:
+    transform 0.18s ease;
+}
+
+.change-password-overlay.open .change-password-card {
+  transform: translateY(0);
+}
+
+
+/* ============================================================
+   ENCABEZADO DEL MODAL
+   ============================================================ */
+
+.change-password-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  align-items: flex-start;
+
+  margin-bottom: 20px;
+}
+
+.change-password-header h2 {
+  margin: 0 0 6px;
+
+  color: #102637;
+
+  font-size: 22px;
+
+  font-weight: 700;
+}
+
+.change-password-header p {
+  margin: 0;
+
+  color: #666666;
+
+  font-size: 14px;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   BOTÓN X
+   ============================================================ */
+
+.change-password-close {
+  border: 0;
+
+  background: transparent;
+
+  font-size: 28px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  color: #666666;
+
+  padding: 0;
+
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.change-password-close:hover {
+  color: #102637;
+
+  transform: scale(1.05);
+}
+
+
+/* ============================================================
+   CAMPOS DE CAMBIO DE CONTRASEÑA
+   ============================================================ */
+
+.change-password-field {
+  display: block;
+
+  margin-bottom: 16px;
+
+  color: #102637;
+}
+
+.change-password-field span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #102637;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.change-password-field input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 12px 13px;
+
+  border: 1px solid #d7d7d7;
+
+  border-radius: 9px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #102637;
+
+  font-size: 15px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.change-password-field input::placeholder {
+  color: #888888;
+}
+
+.change-password-field input:focus {
+  border-color: #0787ff;
+
+  box-shadow:
+    0 0 0 4px rgba(7, 135, 255, 0.12);
+}
+
+
+/* ============================================================
+   MENSAJE DEL CAMBIO DE CONTRASEÑA
+   ============================================================ */
+
+.change-password-message {
+  min-height: 20px;
+
+  margin: 5px 0 15px;
+
+  color: #102637;
+
+  font-size: 14px;
+
+  line-height: 1.4;
+}
+
+.change-password-message.error {
+  color: #c62828;
+}
+
+.change-password-message.success {
+  color: #2e7d32;
+}
+
+
+/* ============================================================
+   BOTONES DEL MODAL
+   ============================================================ */
+
+.change-password-actions {
+  display: flex;
+
+  gap: 10px;
+
+  justify-content: flex-end;
+}
+
+.change-password-actions button {
+  cursor: pointer;
+
+  border-radius: 9px;
+
+  padding: 11px 16px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+}
+
+
+/* CANCELAR */
+
+.change-password-cancel {
+  border: 1px solid #d7d7d7;
+
+  background: #ffffff;
+
+  color: #102637;
+}
+
+.change-password-cancel:hover {
+  transform: translateY(-1px);
+
+  background: #f7f7f7;
+
+  border-color: #bbbbbb;
+}
+
+
+/* GUARDAR */
+
+.change-password-save {
+  border: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0787ff,
+      #0064c8
+    );
+
+  color: #ffffff;
+}
+
+.change-password-save:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px rgba(7, 135, 255, 0.25);
+}
+
+.change-password-save:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 520px) {
+
+  .login-card {
+    width: 100%;
+
+    padding: 30px 22px;
+  }
+
+  .login-actions {
+    flex-direction: column;
+  }
+
+  .login-actions button {
+    width: 100%;
+  }
+
+  .change-password-card {
+    width: 100%;
+
+    padding: 22px;
+  }
+
+  .change-password-actions {
+    flex-direction: column;
+  }
+
+  .change-password-actions button {
+    width: 100%;
+  }
+}
+
+
+/* ============================================================
+   PANTALLAS MUY PEQUEÑAS
+   ============================================================ */
+
+@media (max-width: 360px) {
+
+  .login-card {
+    padding: 24px 18px;
+  }
+
+  .login-card h1 {
+    font-size: 24px;
+  }
+
+  .change-password-card {
+    padding: 18px;
+  }
+
+  .change-password-header h2 {
+    font-size: 20px;
+  }
 }
